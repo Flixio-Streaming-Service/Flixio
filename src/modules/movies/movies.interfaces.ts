@@ -31,6 +31,9 @@ export interface IGetMovieRequest extends Request {
 
 export interface IMovie {
     title: string
+    magnet: string
+    fileName: string
+    sourceUrl: string
     plot: string
     year: string
     director: string

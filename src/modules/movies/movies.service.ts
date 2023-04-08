@@ -5,6 +5,7 @@ import { extractMagnetFromQuery } from './movies.utils'
 import MovieEntity from './movies.model'
 import { IMovie } from './movies.interfaces'
 
+
 export const movieSearch = async(searchTerm: string) => {
     const searchResult = await axios.get(`${BASE_SEARCH_URL}/${searchTerm}`)
     const $ = cheerio.load(searchResult.data)
@@ -24,6 +25,7 @@ export const movieSearch = async(searchTerm: string) => {
         }
     }).filter(item => item.title)
 }
+
 
 export const create = async (input: IMovie) => {
     const item = new MovieEntity(input)
