@@ -19,7 +19,9 @@ export const registration = async (req: IRegistrationRequest, res: Response, nex
     }
 }
 
-export const login = async (req, res, next) => {
+//!made types, and change login parametrs 
+
+export const login = async (req, res, next:NextFunction) => {
     try {
         const { email, password } = req.body
         const userData = await loginUser(email, password)

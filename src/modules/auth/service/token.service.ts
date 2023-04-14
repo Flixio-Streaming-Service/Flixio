@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import tokenModel from '../models/token.model'
 import { Types } from 'mongoose'
+import { IUserTokenData } from '../types'
 
 export const validateAccessToken = (token: string): IUserTokenData => {
     try {
@@ -54,10 +55,3 @@ export const findToken = async (refreshToken: string) => {
     return tokenData
 }
 
-export interface IUserTokenData {
-    email: string
-    id: string
-    isActivated: boolean
-    iat: number
-    exp: number
-} 

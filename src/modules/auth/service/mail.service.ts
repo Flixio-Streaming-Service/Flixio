@@ -2,19 +2,19 @@ import emailjs from '@emailjs/nodejs'
 
 export const sendActivationMail = async (to: string, link: string) => {
     await emailjs.send(
-        'service_owwboma',
-        'template_4dlqo1h',
+        process.env.EMAIL_SERVICE,
+        process.env.EMAIL_TEMPLATE,
         {
             from_name: 'Flixio Service',
             to_name: '',
-            from_email: 'flixioservice@gmail.com',
+            from_email: process.env.EMAIL_FROM,
             to_email: to,
             message: 'Для регистрации на сервисе Flixio перейдите по ссылке',
             link: link
         },
         {
-            publicKey: 'aVmG8NFFdQl8I1UaV',
-            privateKey: 'GDLtrGj3FWDWqOVaUpuyy'
+            publicKey: process.env.EMAIL_PUBLIC_KEY,
+            privateKey: process.env.EMAIL_PRIVATE_KEY
         }
     )  
 } 

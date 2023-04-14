@@ -20,6 +20,14 @@ export interface IUserRegistrationResult {
     user: IUserDto
 }
 
+export interface IUserTokenData {
+    email: string
+    id: string
+    isActivated: boolean
+    iat: number
+    exp: number
+} 
+
 export interface IRegistrationRequest extends Request {
     body : {
         email: string
@@ -31,4 +39,11 @@ export interface IActivateUserRequest extends Request {
     params: {
         link: string
     }
+}
+
+export interface IAuthMiddlewareRequest extends Request {
+    headers: {
+        authorization: string
+    }
+    user: any
 }

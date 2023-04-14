@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import ApiAuthError from "../exceptions/api.error"
 import { validateAccessToken } from '../service/token.service'
+import { IAuthMiddlewareRequest } from '../types'
 
 export const authMiddleware = (req: IAuthMiddlewareRequest, res: Response, next: NextFunction) => {
     try {
@@ -25,9 +26,3 @@ export const authMiddleware = (req: IAuthMiddlewareRequest, res: Response, next:
     }
 }
 
-interface IAuthMiddlewareRequest extends Request {
-    headers: {
-        authorization: string
-    }
-    user: any
-}
