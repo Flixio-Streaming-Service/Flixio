@@ -1,26 +1,17 @@
-import axios from 'axios'
-import { stringify } from 'qs'
+import { IMDBMovie, IMovie  } from './movies.interfaces'
+import { IMBRRequests, convertMovie } from './helpers/imdb.helper'
 
-import { IMDB_SEARCH_URL } from './movies.constants'
+const { searchMovie, getMovie } = IMBRRequests()
 
-export const searchInImdb = async (query) => {
-    const queryParams = stringify({
-        language: 'ru',
-        api_key: process.env.TMDB_API_KEY,
-        query
-    })
-    const {data: { results } } = await axios.get(`${IMDB_SEARCH_URL}/search/movie?${queryParams}`)
+export const searchInImdb = async (query) :Promise<Partial<IMDBMovie>> => {
+   
+    const {data: { results } } = await searchMovie(query)
 
     const [ movie ] = results
     return movie
 }
 
-export const getMovieFromIMDB = async (IMDBId: string) => {
-    const queryParams = stringify({
-        language: 'ru',
-        api_key: process.env.TMDB_API_KEY,
-    })
-    const result = await axios.get(`${IMDB_SEARCH_URL}/movie/${IMDBId}?${queryParams}`)
-
-    return result.data
+export const getMovieFromIMDB = async (IMDBId: number): Promise<Partial<IMovie>> => {
+    const { data } = await getMovie(IMDBId)
+    return convertMovie(data)
 }

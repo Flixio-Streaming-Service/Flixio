@@ -36,6 +36,10 @@ const entity = new Schema<IMovie>({
             default: ''
         }
     ],
+    backDrop: {
+        type: String,
+        default: ''
+    },
     poster: {
         type: String,
         default: ''

@@ -6,8 +6,6 @@ import { getMovieFromIMDB, searchInImdb } from './imdb.service'
 
 const router = Router()
 
-
-
 router.get('/search', async (req: ISearchRequest, res) => {
     try {
         const results = await MovieService.movieSearch(req.query.searchTerm)
@@ -35,9 +33,9 @@ router.get('/imdb-search', async ({ query: { searchTerm } }, res) => {
     }
 })
 
-router.get('imdb/:imdbId', async ({ params: { imdbId } }, res) => {
+router.get('/imdb/:imdbId', async ({ params: { imdbId } }, res) => {
     try {
-        const result = await getMovieFromIMDB(imdbId)
+        const result = await getMovieFromIMDB(Number(imdbId))
         res.status(200).send(result)
     } catch (error) {
         res.status(400).send(error)
