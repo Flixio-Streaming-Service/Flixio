@@ -15,6 +15,11 @@ class ApiAuthError extends Error {
     static BadRequest(message, errors?) {
         return new ApiAuthError(400, message, errors)
     }
+
+    static NoAccessRights() {
+        return new ApiAuthError(403, 'У вас нет прав доступа')
+    }
+
 }
 
 export default ApiAuthError

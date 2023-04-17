@@ -1,6 +1,6 @@
 import { Response, Request, NextFunction } from 'express'
-import { activateUser, getAllUsers, loginUser, logoutUser, refreshUser, userRegistration } from '../service/user.service'
-import { IActivateUserRequest, IRegistrationRequest } from '../types'
+import { activateUser, getAllUsers, loginUser, logoutUser, refreshUser, userRegistration, createRole } from '../service/user.service'
+import { IActivateUserRequest, IRegistrationRequest, IUserLoginRequest, IUserRoleCreateRequest } from '../types'
 import { validationResult } from 'express-validator'
 import ApiAuthError from '../exceptions/api.error'
 
@@ -10,8 +10,8 @@ export const registration = async (req: IRegistrationRequest, res: Response, nex
         if(!errors.isEmpty()){
             return next(ApiAuthError.BadRequest('Ошибка валидации', errors.array()))
         }
-        const { email, password } = req.body
-        const userData = await userRegistration(email, password)
+        const { username, email, password } = req.body
+        const userData = await userRegistration(username, email, password)
         res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
         return res.json(userData)
     } catch (error) {
@@ -19,12 +19,11 @@ export const registration = async (req: IRegistrationRequest, res: Response, nex
     }
 }
 
-//!made types, and change login parametrs 
 
-export const login = async (req, res, next:NextFunction) => {
+export const login = async (req:IUserLoginRequest, res:Response, next:NextFunction) => {
     try {
-        const { email, password } = req.body
-        const userData = await loginUser(email, password)
+        const { username, password } = req.body
+        const userData = await loginUser(username, password)
         res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
         return res.json(userData)
     } catch (error) {
@@ -71,4 +70,13 @@ export const getUsers = async (req, res, next) => {
     } catch (error) {
        next(error) 
     }
-} 
+}
+
+export const roleCreate = async (req: IUserRoleCreateRequest, res: Response, next: NextFunction) => {
+    try {
+        const role =  await createRole(req.params.role)
+        return res.json(role)
+    } catch (error) {
+        next(error)
+    }
+}

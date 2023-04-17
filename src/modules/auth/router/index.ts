@@ -5,22 +5,25 @@ import { registration,
     logout,
     activate,
     refresh,
-    getUsers } from '../controllers/user.controller'
+    getUsers,
+    roleCreate } from '../controllers/user.controller'
 
-import { authMiddleware } from '../middlewares/auth.middleware'
+import { roleMiddleware } from '../middlewares/role.middleware' 
  
     
 const router = Router()
 
 router.post('/registration',
+    body('username').notEmpty(),
     body('email').isEmail(),
     body('password').isLength({min: 3, max: 32}), 
     registration)
 
 router.post('/login', login)
 router.post('/logout', logout)
+router.post('/role/:role', roleCreate)
 router.get('/activate/:link', activate)
 router.get('/refresh', refresh)
-router.get('/users', authMiddleware, getUsers)
+router.get('/users', roleMiddleware(["ADMIN"]), getUsers)
 
 export default router

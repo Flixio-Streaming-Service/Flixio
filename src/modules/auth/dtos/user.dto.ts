@@ -5,6 +5,7 @@ export const UserDto = (model : HydratedDocument<IUser>): IUserDto => {
     return {
         email : model.email,
         id: model._id,
-        isActivated: model.isActivated
+        isActivated: model.isActivated,
+        roles: model.roles
     }
 }
